@@ -1,5 +1,5 @@
 import Order from "../models/Order.js";
-import Cart from "../models/cart.js";
+import Cart from "../models/cart.js";   // IMPORTANT: lowercase 'c'
 
 export const placeOrder = async (req, res) => {
   try {
@@ -9,12 +9,12 @@ export const placeOrder = async (req, res) => {
     const cart = await Cart.findOne({ userId });
 
     if (!cart || cart.items.length === 0) {
-      return res.status(400).json({ message: "cart is empty" });
+      return res.status(400).json({ message: "Cart is empty" });
     }
 
-    // Calculate total amount
+    // Calculate total amount (replace with real product prices later)
     const totalAmount = cart.items.reduce((sum, item) => {
-      return sum + item.quantity * 1; // You can replace 1 with product price later
+      return sum + item.quantity * 1; // temporary price = 1
     }, 0);
 
     // Create order
@@ -27,7 +27,7 @@ export const placeOrder = async (req, res) => {
 
     await order.save();
 
-    // Clear cart after order
+    // Clear cart after placing order
     cart.items = [];
     await cart.save();
 
@@ -37,6 +37,9 @@ export const placeOrder = async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).json({ error: "Failed to place order", details: err.message });
+    res.status(500).json({
+      error: "Failed to place order",
+      details: err.message
+    });
   }
 };
