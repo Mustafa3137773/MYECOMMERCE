@@ -22,3 +22,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .env
+
+frontend/myshop/node_modules/
+frontend/myshop/build/
+frontend/myshop/.pnp/
+frontend/myshop/.pnp.js
