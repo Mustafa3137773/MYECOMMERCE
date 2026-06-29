@@ -5,7 +5,7 @@ import cors from "cors";
 
 // ROUTES
 import productRoutes from "./routes/productRoutes.js";
-import cartRoutes from "./routes/cartRoutes.js";
+import cartRoutes from "./routes/cart.js";
 import orderRoutes from "./routes/order.js";   // NEW ORDER ROUTE
 
 dotenv.config();
