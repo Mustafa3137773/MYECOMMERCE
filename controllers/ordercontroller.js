@@ -1,5 +1,6 @@
 import Order from "../models/Order.js";
-import Cart from "../models/cartmodel.js";   // correct file name
+import Cart from "../models/cartmodel.js"; 
+import Product from "../models/Product.js";   // fetch real product data
 
 export const placeOrder = async (req, res) => {
   try {
@@ -12,15 +13,34 @@ export const placeOrder = async (req, res) => {
       return res.status(400).json({ message: "Cart is empty" });
     }
 
-    // Calculate total amount (replace with real product prices later)
-    const totalAmount = cart.items.reduce((sum, item) => {
-      return sum + item.quantity * 1; // temporary price = 1
-    }, 0);
+    // Build order items with real product data
+    let orderItems = [];
+    let totalAmount = 0;
+
+    for (const item of cart.items) {
+      const product = await Product.findById(item.productId);
+
+      if (!product) {
+        return res.status(404).json({
+          message: `Product not found: ${item.productId}`
+        });
+      }
+
+      const itemTotal = product.price * item.quantity;
+      totalAmount += itemTotal;
+
+      orderItems.push({
+        productId: item.productId,
+        name: product.name,
+        price: product.price,
+        quantity: item.quantity
+      });
+    }
 
     // Create order
     const order = new Order({
       userId,
-      items: cart.items,
+      items: orderItems,
       totalAmount,
       createdAt: new Date()
     });
