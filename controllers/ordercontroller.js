@@ -1,5 +1,5 @@
 import Order from "../models/Order.js";
-import Cart from "../models/cart.js";   // IMPORTANT: lowercase 'c'
+import Cart from "../models/cartmodel.js";   // correct file name
 
 export const placeOrder = async (req, res) => {
   try {
