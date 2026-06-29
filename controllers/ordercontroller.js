@@ -1,5 +1,5 @@
 import Order from "../models/Order.js";
-import Cart from "../models/Cart.js";
+import Cart from "../models/cart.js";
 
 export const placeOrder = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ export const placeOrder = async (req, res) => {
     const cart = await Cart.findOne({ userId });
 
     if (!cart || cart.items.length === 0) {
-      return res.status(400).json({ message: "Cart is empty" });
+      return res.status(400).json({ message: "cart is empty" });
     }
 
     // Calculate total amount
